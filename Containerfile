@@ -341,9 +341,10 @@ RUN rpm-ostree install \
         cockpit-navigator \
         cockpit-storaged \
         lsb_release \
+        dua-cli \
         kgpg \
         neovim \
-        dua-cli && \
+        rclone && \
     pip install --prefix=/usr topgrade && \
     rpm-ostree install \
         ublue-update && \
