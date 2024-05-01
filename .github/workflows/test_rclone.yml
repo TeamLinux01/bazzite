@@ -1,0 +1,30 @@
+name: Test rclone
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  test-rclone:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+    strategy:
+      fail-fast: false
+    steps:
+
+      - name: rclone test to personal server
+        shell: bash
+        env:
+          RCLONE_CONFIG_PS_TYPE: sftp
+          RCLONE_CONFIG_PS_HOST: ${{ secrets.PS_HOST }}
+          RCLONE_CONFIG_PS_PORT: ${{ secrets.PS_PORT }}
+          RCLONE_CONFIG_PS_USER: ${{ secrets.PS_USER }}
+          RCLONE_CONFIG_PS_KEY_PEM: ${{ secrets.PS_KEY_PEM }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y rclone
+          echo "Success" >> test.txt
+          rclone copy -P test.txt PS:bazzite
